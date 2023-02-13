@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ReverseNonogramApi.Models;
 
 namespace ReverseNonogramApi.Controllers;
 
@@ -14,14 +15,36 @@ public class NonogramController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public IActionResult Test()
     {
-        return Ok("yo what's up");
+        return Ok($"current time: {DateTime.UtcNow}");
     }
 
     [HttpPost]
-    public IActionResult CreateNonogram()
+    public IActionResult CreateNonogram(int[][] array)
     {
-        return Ok("testing");
+        return Ok(new Nonogram(JaggedToMultiDimensional(array)));
+    }
+
+    private int[,] JaggedToMultiDimensional(int[][] jagged)
+    {
+        var rows = jagged.Length;
+        var columns = jagged[0].Length;
+        var grid = new int[rows, columns];
+
+        for (var i = 0; i < rows; i++)
+        {
+            if (jagged[i].Length != columns)
+            {
+                throw new Exception("ahhhhhhh");
+            }
+
+            for (var j = 0; j < columns; j++)
+            {
+                grid[i, j] = jagged[i][j];
+            }
+        }
+
+        return grid;
     }
 }

@@ -1,1 +1,1 @@
-# reverse-nonogram-api
+# Reverse Nonogram API

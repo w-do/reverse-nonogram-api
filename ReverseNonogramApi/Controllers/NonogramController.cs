@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ReverseNonogramApi.Models;
+using ReverseNonogramApi.Services;
 
 namespace ReverseNonogramApi.Controllers;
 
@@ -8,22 +9,24 @@ namespace ReverseNonogramApi.Controllers;
 public class NonogramController : ControllerBase
 {
     private readonly ILogger<NonogramController> _logger;
+    private readonly IImageParsingService _imageParser;
 
-    public NonogramController(ILogger<NonogramController> logger)
+    public NonogramController(ILogger<NonogramController> logger, IImageParsingService imageParser)
     {
         _logger = logger;
-    }
-
-    [HttpGet]
-    public IActionResult Test()
-    {
-        return Ok($"current time: {DateTime.UtcNow}");
+        _imageParser = imageParser;
     }
 
     [HttpPost]
     public IActionResult CreateNonogram(int[][] array)
     {
         return Ok(new Nonogram(JaggedToMultiDimensional(array)));
+    }
+
+    [HttpPost("image")]
+    public IActionResult CreateNonogramFromImage(IFormFile file)
+    {
+        return Ok(new Nonogram(_imageParser.ParseImageFile(file.OpenReadStream())));
     }
 
     private int[,] JaggedToMultiDimensional(int[][] jagged)
@@ -36,7 +39,7 @@ public class NonogramController : ControllerBase
         {
             if (jagged[i].Length != columns)
             {
-                throw new Exception("ahhhhhhh");
+                throw new Exception("Error: submitted array is malformed");
             }
 
             for (var j = 0; j < columns; j++)

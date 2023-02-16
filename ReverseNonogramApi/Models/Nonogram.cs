@@ -13,7 +13,7 @@ public class Nonogram
     {
         if (grid is null || grid.GetLength(0) > 20 || grid.GetLength(1) > 20)
         {
-            throw new Exception("Grid must be 20 x 20 or smaller");
+            throw new Exception("Invalid array given - must be 20 x 20 or smaller");
         }
 
         Grid = grid;
@@ -34,11 +34,22 @@ public class Nonogram
                 {
                     consecutive++;
                 }
-                else if (consecutive != 0)
+                else
                 {
-                    line.Add(consecutive);
-                    consecutive = 0;
+                    if (Grid[j, i] == 0)
+                    {
+                        if (consecutive != 0)
+                        {
+                            line.Add(consecutive);
+                            consecutive = 0;
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid array given - values must be 0 and 1 only");
+                    }
                 }
+                
             }
 
             if (consecutive != 0)

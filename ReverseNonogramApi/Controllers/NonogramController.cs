@@ -26,7 +26,7 @@ public class NonogramController : ControllerBase
     [HttpPost("image")]
     public IActionResult CreateNonogramFromImage(IFormFile file)
     {
-        return Ok(new Nonogram(_imageParser.ParseImageFile(file)));
+        return Ok(new Nonogram(_imageParser.ParseImageFile(file.OpenReadStream())));
     }
 
     private int[,] JaggedToMultiDimensional(int[][] jagged)

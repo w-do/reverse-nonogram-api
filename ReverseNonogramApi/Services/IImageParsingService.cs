@@ -2,6 +2,6 @@
 {
     public interface IImageParsingService
     {
-        public int[,] ParseImageFile(IFormFile imageFile);
+        public int[,] ParseImageFile(Stream imageFile);
     }
 }

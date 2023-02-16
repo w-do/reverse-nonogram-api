@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/ReverseNonogramApi.csproj",
+                "${workspaceFolder}/ReverseNonogramApi/ReverseNonogramApi.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/ReverseNonogramApi.csproj",
+                "${workspaceFolder}/ReverseNonogramApi/ReverseNonogramApi.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/ReverseNonogramApi.csproj"
+                "${workspaceFolder}/ReverseNonogramApi/ReverseNonogramApi.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

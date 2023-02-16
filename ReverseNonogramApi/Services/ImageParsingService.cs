@@ -5,9 +5,18 @@ namespace ReverseNonogramApi.Services
 {
     public class ImageParsingService : IImageParsingService
     {
-        public int[,] ParseImageFile(IFormFile imageFile)
+        public int[,] ParseImageFile(Stream imageFile)
         {
-            using var image = Image.Load(imageFile.OpenReadStream()).CloneAs<Rgb24>();
+            Image image;
+
+            try
+            {
+                image = Image.Load(imageFile);
+            }
+            catch (UnknownImageFormatException)
+            {
+                throw;
+            }
 
             if (image.Height > 20 || image.Width > 20)
             {
@@ -15,12 +24,13 @@ namespace ReverseNonogramApi.Services
             }
 
             var grid = new int[image.Height, image.Width];
+            var rgb24Image = image.CloneAs<Rgb24>();
 
             for (var i = 0; i < image.Width; i++)
             {
                 for (var j = 0; j < image.Height; j++)
                 {
-                    var pixel = image[i, j];
+                    var pixel = rgb24Image[i, j];
 
                     if (IsBlack(pixel))
                     {

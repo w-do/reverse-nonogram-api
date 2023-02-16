@@ -1,3 +1,5 @@
+using ReverseNonogramApi.Exceptions;
+
 namespace ReverseNonogramApi.Models;
 
 public class Nonogram
@@ -13,7 +15,7 @@ public class Nonogram
     {
         if (grid is null || grid.GetLength(0) > 20 || grid.GetLength(1) > 20)
         {
-            throw new Exception("Invalid array given - must be 20 x 20 or smaller");
+            throw new InvalidArrayException("Invalid array - must be 20 x 20 or smaller");
         }
 
         Grid = grid;
@@ -46,7 +48,7 @@ public class Nonogram
                     }
                     else
                     {
-                        throw new Exception("Invalid array given - values must be 0 and 1 only");
+                        throw new InvalidArrayException("Invalid array - values must be 0 and 1 only");
                     }
                 }
                 

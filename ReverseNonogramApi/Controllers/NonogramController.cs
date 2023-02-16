@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using ReverseNonogramApi.Exceptions;
 using ReverseNonogramApi.Models;
 using ReverseNonogramApi.Services;
+using SixLabors.ImageSharp;
 
 namespace ReverseNonogramApi.Controllers;
 
@@ -20,13 +22,31 @@ public class NonogramController : ControllerBase
     [HttpPost]
     public IActionResult CreateNonogram(int[][] array)
     {
-        return Ok(new Nonogram(JaggedToMultiDimensional(array)));
+        try
+        {
+            return Ok(new Nonogram(JaggedToMultiDimensional(array)));
+        }
+        catch (InvalidArrayException exception)
+        {
+            return BadRequest(exception.Message);
+        }
     }
 
     [HttpPost("image")]
     public IActionResult CreateNonogramFromImage(IFormFile file)
     {
-        return Ok(new Nonogram(_imageParser.ParseImageFile(file.OpenReadStream())));
+        try
+        {
+            return Ok(new Nonogram(_imageParser.ParseImageFile(file.OpenReadStream())));
+        }
+        catch (InvalidImageException exception)
+        {
+            return BadRequest(exception.Message);
+        }
+        catch (UnknownImageFormatException)
+        {
+            return new UnsupportedMediaTypeResult();
+        }
     }
 
     private int[,] JaggedToMultiDimensional(int[][] jagged)
@@ -39,7 +59,7 @@ public class NonogramController : ControllerBase
         {
             if (jagged[i].Length != columns)
             {
-                throw new Exception("Error: submitted array is malformed");
+                throw new InvalidArrayException("Invalid array: must be a uniform 2-dimensional array");
             }
 
             for (var j = 0; j < columns; j++)

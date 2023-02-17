@@ -37,7 +37,7 @@ public class NonogramController : ControllerBase
     {
         try
         {
-            return Ok(new Nonogram(_imageParser.ParseImageFile(file.OpenReadStream())));
+            return Ok(new Nonogram(_imageParser.ParseImage(file.OpenReadStream())));
         }
         catch (InvalidImageException exception)
         {

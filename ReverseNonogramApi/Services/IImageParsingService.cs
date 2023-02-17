@@ -1,7 +1,6 @@
-﻿namespace ReverseNonogramApi.Services
+﻿namespace ReverseNonogramApi.Services;
+
+public interface IImageParsingService
 {
-    public interface IImageParsingService
-    {
-        public int[,] ParseImageFile(Stream imageFile);
-    }
+    public int[,] ParseImage(Stream imageFile);
 }

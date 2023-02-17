@@ -1,35 +1,36 @@
-﻿using ReverseNonogramApi.Models;
+﻿using ReverseNonogramApi.Exceptions;
+using ReverseNonogramApi.Models;
 
 namespace ReverseNonogramApi.Tests.Models;
 
 public class NonogramTests
 {
     [Fact]
-    public void Constructor_ThrowsException_WhenPassedNullArray()
+    public void Constructor_ThrowsInvalidArrayException_WhenPassedNullArray()
     {
-        var exception = Assert.Throws<Exception>(() => new Nonogram(null));
+        var exception = Assert.Throws<InvalidArrayException>(() => new Nonogram(null));
 
-        Assert.Equal("Invalid array given - must be 20 x 20 or smaller", exception.Message);
+        Assert.Equal("Invalid array - must be 20 x 20 or smaller", exception.Message);
     }
 
     [Theory]
     [InlineData(21, 1)]
     [InlineData(1, 21)]
     [InlineData(21, 21)]
-    public void Constructor_ThrowsException_WhenPassedArrayExceeding20By20(int width, int height)
+    public void Constructor_ThrowsInvalidArrayException_WhenPassedArrayExceeding20By20(int width, int height)
     {
         var grid = new int[height, width];
 
-        var exception = Assert.Throws<Exception>(() => new Nonogram(grid));
+        var exception = Assert.Throws<InvalidArrayException>(() => new Nonogram(grid));
 
-        Assert.Equal("Invalid array given - must be 20 x 20 or smaller", exception.Message);
+        Assert.Equal("Invalid array - must be 20 x 20 or smaller", exception.Message);
     }
 
     [Theory]
     [InlineData(-1)]
     [InlineData(2)]
     [InlineData(100)]
-    public void Constructor_ThrowsException_WhenPassedArrayWithAnyValueOtherThanZeroOrOne(int value)
+    public void Constructor_ThrowsInvalidArrayException_WhenPassedArrayWithAnyValueOtherThanZeroOrOne(int value)
     {
         var grid = new int[20, 20];
 
@@ -43,9 +44,9 @@ public class NonogramTests
 
         grid[19, 19] = value;
 
-        var exception = Assert.Throws<Exception>(() => new Nonogram(grid));
+        var exception = Assert.Throws<InvalidArrayException>(() => new Nonogram(grid));
 
-        Assert.Equal("Invalid array given - values must be 0 and 1 only", exception.Message);
+        Assert.Equal("Invalid array - values must be 0 and 1 only", exception.Message);
     }
 
     [Theory]

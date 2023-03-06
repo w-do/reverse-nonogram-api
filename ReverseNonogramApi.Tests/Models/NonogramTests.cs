@@ -6,6 +6,12 @@ namespace ReverseNonogramApi.Tests.Models;
 public class NonogramTests
 {
     [Fact]
+    public void FailingTest()
+    {
+        Assert.True(false);
+    }
+
+    [Fact]
     public void Constructor_ThrowsInvalidArrayException_WhenPassedNullArray()
     {
         var exception = Assert.Throws<InvalidArrayException>(() => new Nonogram(null));

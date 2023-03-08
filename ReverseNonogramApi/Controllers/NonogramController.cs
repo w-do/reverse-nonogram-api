@@ -19,7 +19,15 @@ public class NonogramController : ControllerBase
         _imageParser = imageParser;
     }
 
+    /// <summary>
+    /// Takes a 2d array representing a completed nonogram and returns the clues for the nonogram.
+    /// </summary>
+    /// <param name="array">An even, 2d array containing only 1s and 0s, maximum size 20 rows and 20 columns.</param>
+    /// <response code="200">Returns a nonogram object which includes the clues</response>
+    /// <response code="400">If the array is jagged, too large, or contains invalid values</response>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public IActionResult CreateNonogram(int[][] array)
     {
         try
@@ -32,7 +40,15 @@ public class NonogramController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Takes an image file representing a completed nonogram and returns the clues for the nonogram.
+    /// </summary>
+    /// <param name="file">An image file whose dimensions are 20x20 or smaller, containing only black and white pixels.</param>
+    /// <response code="200">Returns a nonogram object which includes the clues</response>
+    /// <response code="400">If the image exceeds maximum dimensions or contains any pixels that are neither black nor white.</response>
     [HttpPost("image")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public IActionResult CreateNonogramFromImage(IFormFile file)
     {
         try

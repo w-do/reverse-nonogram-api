@@ -8,11 +8,11 @@ From [Wikipedia](https://en.wikipedia.org/wiki/Nonogram):
 With a nonogram, the goal is to recreate a simple picture on a blank grid using the provided clues. I built this api to take a simple image and return the set of clues necessary to reconstruct that image - hence, the "Reverse Nonogram API".
 
 ## How do I run this?
-To run this locally in a docker container, simply run the following commands, replacing `[image name]` and `[container name]` with names of your choosing:
+To run this using Docker, simply build and run:
 
 ```
-docker build -t [image name] .
-docker run -it --rm -p 5000:80 --name [container name] [image name]
+docker build -t rna .
+docker run -p 5000:80 rna
 ```
 
 The Swagger documentation should then be available at `http://localhost:5000/index.html`
